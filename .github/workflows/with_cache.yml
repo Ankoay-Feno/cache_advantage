@@ -27,5 +27,5 @@ jobs:
           docker build \
             --build-arg PIP_CACHE_DIR=/tmp/pip-cache \
             --target with_cache \
-            -t your-image-name \
+            -t with_cache\
             -f tp_cache/Dockerfile tp_cache
