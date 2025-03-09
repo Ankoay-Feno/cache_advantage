@@ -21,4 +21,4 @@ jobs:
           pip install -r tp_cache/requirements.txt 
 
       - name: build docker image
-        run: docker buildx build --target without_cache -t image-without-cache -f tp_cache/Dockerfile tp_cache
+        run: DOCKER_BUILDKIT=1 docker buildx build --target without_cache -t image-without-cache -f tp_cache/Dockerfile tp_cache

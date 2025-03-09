@@ -18,16 +18,18 @@ jobs:
       - name: Cache pip dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.cache/pip
+          path: ~/.local
           key: ${{ runner.os }}-pip-${{ hashFiles('tp_cache/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install dependencies
+
+      - name: Install dependencies (with --user)
         run: |
-          pip install --upgrade pip
-          pip install -r tp_cache/requirements.txt
+          pip install --upgrade --user pip
+          pip install --user -r tp_cache/requirements.txt
+          echo "$HOME/.local/bin" >> $GITHUB_PATH 
 
       - name: Build Docker image
-        run: docker buildx build --target with_cache -t image-with-cache -f tp_cache/Dockerfile tp_cache
+        run: DOCKER_BUILDKIT=1 docker buildx build --target with_cache -t image-with-cache -f tp_cache/Dockerfile tp_cache
 
