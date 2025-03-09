@@ -23,11 +23,12 @@ jobs:
         run:  docker buildx create --driver-opt default-load=true
  
       - name: Build Docker image
-        run:  docker buildx build \
+        run:  run: docker buildx build \
             --cache-to type=local,mode=max,dest=/tmp/docker-cache \
             --cache-from type=local,src=/tmp/docker-cache \
             -t image-with-cache \
             --target with_cache .
+
 
 
 
