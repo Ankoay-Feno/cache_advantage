@@ -19,3 +19,8 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r tp_cache/requirements.txt 
+
+      - name: build docker image
+        run: docker build -t without_cache\
+          --target without_cache -f tp_cache/Dockerfile\
+          tp_cache
