@@ -1,12 +1,21 @@
-FROM python:3.9-alpine AS with_cache
+FROM python:3.12-slim AS compile-image
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends build-essential gcc
 
-WORKDIR /app
+RUN python -m venv /opt/venv
+
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 COPY . .
+RUN pip install .
 
-RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
+FROM python:3.12-slim AS with_cache
+COPY --from=compile-image /opt/venv /opt/venv
 
-ENV PATH=".env/bin:$PATH"
+ENV PATH="/opt/venv/bin:$PATH"
 
 EXPOSE 8000
 
