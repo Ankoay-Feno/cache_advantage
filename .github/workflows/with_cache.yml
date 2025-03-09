@@ -28,7 +28,7 @@ jobs:
 
 
       - name: (Debug)
-        run: which django-admin  
+        run: pip cache dir 
 
 
       - name: List installed packages (Debug)
