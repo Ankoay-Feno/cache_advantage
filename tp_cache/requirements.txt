@@ -1,4 +1,4 @@
 asgiref
 Django
 sqlparse
-scikit-learn #adding library to observe the time gap
+scikit-learn==1.6.1 #adding library to observe the time gap
