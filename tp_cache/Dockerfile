@@ -7,6 +7,7 @@ COPY tp_cache .
 
 COPY /usr/local/lib/python3.11/site-packages/ /usr/local/lib/python3.11/site-packages/
 
+
 EXPOSE 8000
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
