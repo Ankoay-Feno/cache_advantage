@@ -7,6 +7,8 @@ RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
 ARG PIP_CACHE_DIR=/root/.cache/pip
 RUN mkdir -p ${PIP_CACHE_DIR}
 
+COPY ~/.cache/pip ~/.cache/pip
+
 RUN pip install --cache-dir=${PIP_CACHE_DIR} -r requirements.txt
 
 FROM python:3.9-alpine AS with_cache
