@@ -28,7 +28,9 @@ jobs:
 
 
       - name: (Debug)
-        run: pip cache dir 
+        run: |
+          pip cache dir 
+          ls -la $(pip cache dir)
 
 
       - name: List installed packages (Debug)
