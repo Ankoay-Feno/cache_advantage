@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.13'
           cache: 'pip'
-          cache-dependency-path: 'tp_cache/requirementstxt'
+          cache-dependency-path: 'tp_cache/requirements.txt'
 
       - run: pip install -r tp_cache/requirements.txt
 
