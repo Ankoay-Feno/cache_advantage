@@ -22,6 +22,6 @@ jobs:
           pip install --upgrade pip
           pip install --cache-dir ~/.cache/pip -r tp_cache/requirements.txt
       - name: build docker image
-        run: docker build -t with_cache\
+        run: docker build -t with-cache\
           --target with_cache -f tp_cache/Dockerfile\
           tp_cache
