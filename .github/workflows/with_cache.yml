@@ -29,7 +29,7 @@ jobs:
           python -m venv /opt/.env
           PATH="/opt/.env/bin:$PATH"
           pip install -r requirements.txt
-        
+        working-directory: tp_cache
 
       - name: Build Docker image
         run: DOCKER_BUILDKIT=1 docker buildx build --target with_cache -t image-with-cache -f tp_cache/Dockerfile tp_cache
