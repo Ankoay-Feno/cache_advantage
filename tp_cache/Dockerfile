@@ -9,6 +9,9 @@ RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
 # Copie uniquement le fichier requirements.txt pour optimiser le cache Docker
 COPY requirements.txt .
 
+# Vérifie si requirements.txt est bien copié dans l'image Docker
+RUN ls -l /app
+
 # Installe les dépendances Python avec pip et le cache
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -19,6 +22,9 @@ WORKDIR /app
 
 # Copie le reste de l'application
 COPY . .
+
+# Vérifie à nouveau si requirements.txt est présent dans l'image
+RUN ls -l /app
 
 # Installe les dépendances si le cache n'est pas déjà présent
 RUN pip install --no-cache-dir -r requirements.txt
@@ -38,6 +44,9 @@ RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
 
 # Copie le reste de l'application
 COPY . .
+
+# Vérifie à nouveau si requirements.txt est présent dans l'image
+RUN ls -l /app
 
 # Installe les dépendances sans utiliser le cache pip
 RUN pip install --no-cache-dir -r requirements.txt
