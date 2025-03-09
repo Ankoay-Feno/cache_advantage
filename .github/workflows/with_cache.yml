@@ -31,15 +31,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Restore pip cache
-        id: pip-cache
-        uses: actions/cache@v4
+      - uses: actions/cache@v1
         with:
-          path: /root/.cache/pip
-          key: pip-cache-${{ runner.os }}-${{ hashFiles('tp_cache/requirements.txt') }}
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            pip-cache-${{ runner.os }}-
+            ${{ runner.os }}-pip-
 
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install -r with_cache/requirements.txt
+          python -m pip install --upgrade pip
+          pip install .
       - name: Enable BuildKit
         run: |
           echo "DOCKER_BUILDKIT=1" >> $GITHUB_ENV
@@ -50,7 +54,7 @@ jobs:
           DOCKER_BUILDKIT: 1
         run: |
           docker build --progress=plain \
-            --build-arg PIP_CACHE_DIR=/root/.cache/pip \
+            --build-arg PIP_CACHE_DIR=~/.cache/pip \
             --target with_cache \
             -t with_cache \
             -f tp_cache/Dockerfile tp_cache

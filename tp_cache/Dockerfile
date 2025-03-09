@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
 
-ARG PIP_CACHE_DIR=/root/.cache/pip
+ARG PIP_CACHE_DIR=~/.cache/pip
 RUN mkdir -p ${PIP_CACHE_DIR}
 
 # Use mount to persist pip cache across builds
