@@ -18,7 +18,8 @@ jobs:
       - name: Cache pip dependencies
         uses: actions/cache@v3
         with:
-          path: /opt/.env
+          path: 
+            /home/runner/work/cache_advantage/cache_advantage/tp_cache/.env
           key: ${{ runner.os }}-pip-${{ hashFiles('tp_cache/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
@@ -35,8 +36,9 @@ jobs:
       - name: Build Docker image
         run: |
           DOCKER_BUILDKIT=1 docker buildx build --target with_cache -t image-with-cache -f tp_cache/Dockerfile tp_cache
-          docker run --rm -d -p 8000:8000 --name my_container image-with-cache
-          sleep 5  # Attendre que le serveur démarre
+          docker run --rm -d -p 8000:8000 --name my_container image-with-cache 
+          docker logs my_container
+          sleep 15
           curl -f http://localhost:8000
 
 
