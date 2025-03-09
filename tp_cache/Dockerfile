@@ -1,12 +1,13 @@
-FROM python:3.11.10-slim-bullseye AS with_cache
+FROM python:3.9-alpine AS with_cache
 
 WORKDIR /app
 
+COPY . .
 
-COPY tp_cache .
+RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
 
-COPY /usr/local/lib/python3.11/site-packages/ /usr/local/lib/python3.11/site-packages/
-
+ARG PIP_CACHE_DIR=/root/.cache/pip
+RUN --mount=type=cache,target=${PIP_CACHE_DIR} pip install -r requirements.txt
 
 EXPOSE 8000
 
@@ -16,11 +17,11 @@ FROM python:3.9-alpine AS without_cache
 
 WORKDIR /app
 
-RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev make clang
-
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
+
+RUN  pip install -r requirements.txt
 
 EXPOSE 8000
 
