@@ -1,4 +1,5 @@
-name: Docker Build with Pre-installed Dependencies Cache
+name: Docker Build with Persistent Cache
+run-name: build with persistent cache
 
 on: [push, pull_request]
 
