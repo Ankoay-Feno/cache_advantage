@@ -32,7 +32,3 @@ RUN  pip install -r requirements.txt
 EXPOSE 8000
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
-(.env) ankoayfeno@cloudshell:~/cache_advantage/tp_cache$ docker run --rm -it -p 8000:8000 --name my_container image-with-cache 
-python: can't open file '//manage.py': [Errno 2] No such file or directory
-exit status 2
