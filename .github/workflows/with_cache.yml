@@ -14,7 +14,7 @@ jobs:
         id: pip-cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
+          path: /root/.cache/pip
           key: pip-cache-${{ runner.os }}-${{ hashFiles('tp_cache/requirements.txt') }}
           restore-keys: |
             pip-cache-${{ runner.os }}-
@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install --cache-dir ~/.cache/pip -r tp_cache/requirements.txt
+          pip install --cache-dir /root/.cache/pip -r tp_cache/requirements.txt
 
   build-docker:
     runs-on: ubuntu-latest
@@ -35,20 +35,21 @@ jobs:
         id: pip-cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
+          path: /root/.cache/pip
           key: pip-cache-${{ runner.os }}-${{ hashFiles('tp_cache/requirements.txt') }}
           restore-keys: |
             pip-cache-${{ runner.os }}-
 
       - name: Enable BuildKit
-        run: echo "DOCKER_BUILDKIT=1" >> $GITHUB_ENV \ 
-          ls -la ~/.cache
+        run: |
+          echo "DOCKER_BUILDKIT=1" >> $GITHUB_ENV
+          ls -la /root/.cache
 
       - name: Build Docker image using cached dependencies
         env:
           DOCKER_BUILDKIT: 1
         run: |
-          docker build --progress=plain\
+          docker build --progress=plain \
             --build-arg PIP_CACHE_DIR=/root/.cache/pip \
             --target with_cache \
             -t with_cache \
