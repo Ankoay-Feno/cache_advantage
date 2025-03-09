@@ -13,18 +13,26 @@ jobs:
       - name: Set up Python environment
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11' 
+          python-version: '3.11'
 
       - name: Restore pip cache
         id: pip-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip  
-          key: pip-cache-${{ runner.os }}-${{ hashFiles('tp_cache/requirements.txt') }}  # Clé basée sur requirements.txt
+          key: pip-cache-${{ runner.os }}-${{ hashFiles('tp_cache/requirements.txt') }}
           restore-keys: |
             pip-cache-${{ runner.os }}-
+
+      - name: List pip cache directory (Debug)
+        run: |
+          echo "Listing pip cache directory"
+          ls -la ~/.cache/pip  # Liste les fichiers dans la cache pour voir si elle a été restaurée
 
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install --cache-dir ~/.cache/pip -r tp_cache/requirements.txt  # Utilisation de la cache pip pour installer les dépendances
+          pip install --cache-dir ~/.cache/pip -r tp_cache/requirements.txt
+
+      - name: List installed packages (Debug)
+        run: pip list  # Affiche les paquets installés pour vérifier
