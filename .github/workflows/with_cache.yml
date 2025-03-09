@@ -13,7 +13,7 @@ jobs:
       - name: Cache layer 
         uses: actions/cache@v3
         with:
-          path: ~/.cache/docker
+          path: /tmp/docker-cache
           key: ${{ runner.os }}-pip-${{ hashFiles('tp_cache/requirements.txt', 'tp_cache/Dockerfile') }}
           restore-keys: |
             ${{ runner.os }}-docker-
@@ -22,10 +22,11 @@ jobs:
         run:  docker buildx create --driver-opt default-load=true
  
       - name: Build Docker image
-        run: docker buildx build \
-          --cache-to type=local,dest=~/.cache/docker \
-          --cache-from type=local,src=~/.cache/docker \
-          -t image-with-cache \
-          --target with_cache .
+        run: run: docker buildx build \
+            --cache-to type=local,mode=max,dest=/tmp/docker-cache \
+            --cache-from type=local,src=/tmp/docker-cache \
+            -t image-with-cache \
+            --target with_cache .
+
 
 
