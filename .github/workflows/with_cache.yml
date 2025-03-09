@@ -17,15 +17,15 @@ jobs:
         id: pip-cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
-          key: pip-cache-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          path: /home/runner/.cache/pip
+          key: pip-cache-${{ runner.os }}-${{ hashFiles('tp_cache/requirements.txt') }}
           restore-keys: |
             pip-cache-${{ runner.os }}-
 
       - name: Build Docker image with cache
         run: |
           docker build \
-            --build-arg PIP_CACHE_DIR=~/.cache/pip \
+            --build-arg PIP_CACHE_DIR=/root/.cache/pip \
             --target with_cache \
             -t with_cache\
             -f tp_cache/Dockerfile tp_cache
