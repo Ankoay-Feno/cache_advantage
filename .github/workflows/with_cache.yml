@@ -17,13 +17,13 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('tp_cache/requirements.txt', 'tp_cache/Dockerfile') }}
           restore-keys: |
             ${{ runner.os }}-docker-
-            
+
 
       - name: load local image
         run:  docker buildx create --driver-opt default-load=true
  
       - name: Build Docker image
-        run: run: docker buildx build \
+        run:  docker buildx build \
             --cache-to type=local,mode=max,dest=/tmp/docker-cache \
             --cache-from type=local,src=/tmp/docker-cache \
             -t image-with-cache \
