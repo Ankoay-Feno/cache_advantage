@@ -1,5 +1,4 @@
 name: Docker Build with Cache
-run-name: build without cache
 
 on: [push, pull_request]
 
@@ -9,6 +8,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - run: pip install -r requirements.txt
-        working-directory: tp_cache
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
