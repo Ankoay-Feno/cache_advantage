@@ -18,7 +18,7 @@ jobs:
       - name: Cache pip dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.local
+          path: /opt/.env
           key: ${{ runner.os }}-pip-${{ hashFiles('tp_cache/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies 
         run: |
           python -m venv /opt/.env
-          ENV PATH="/opt/.env/bin:$PATH"
+          PATH="/opt/.env/bin:$PATH"
           pip install -r requirements.txt
         
 
