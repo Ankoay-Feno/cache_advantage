@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
+
 ARG PIP_CACHE_DIR=/root/.cache/pip
 RUN --mount=type=cache,target=${PIP_CACHE_DIR} pip install -r requirements.txt
 
@@ -17,8 +19,9 @@ WORKDIR /app
 
 COPY . .
 
-ARG PIP_CACHE_DIR=/root/.cache/pip
-RUN --mount=type=cache,target=${PIP_CACHE_DIR} pip install -r requirements.txt
+RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
+
+RUN  pip install -r requirements.txt
 
 EXPOSE 8000
 
