@@ -27,12 +27,12 @@ jobs:
       - name: List pip cache directory (Debug)
         run: |
           echo "Listing pip cache directory"
-          ls -la ~/.cache/pip  # Liste les fichiers dans la cache pour voir si elle a été restaurée
+          ls -la ~/.cache/pip  
 
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install --cache-dir ~/.cache/pip -r tp_cache/requirements.txt
+      # - name: Install dependencies
+      #   run: |
+      #     pip install --upgrade pip
+      #     pip install --cache-dir ~/.cache/pip -r tp_cache/requirements.txt
 
       - name: List installed packages (Debug)
-        run: pip list  # Affiche les paquets installés pour vérifier
+        run: pip list 
