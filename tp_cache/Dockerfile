@@ -1,4 +1,3 @@
-(.env) ankoayfeno@cloudshell:~/cache_advantage/tp_cache$ cat Dockerfile 
 FROM python:3.12-slim AS compile-image
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends build-essential gcc
