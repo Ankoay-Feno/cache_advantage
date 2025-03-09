@@ -29,8 +29,5 @@ jobs:
           pip install -r tp_cache/requirements.txt
 
       - name: Build Docker image
-        run: docker build \
-         --target with_cache \
-         -t image-with-cache \
-         -f tp_cache/Dockerfile \
-         tp_cache
+        run: docker buildx build --target with_cache -t image-with-cache -f tp_cache/Dockerfile tp_cache
+
