@@ -29,8 +29,14 @@ jobs:
           python -m venv .env
           source .env/bin/activate
           pip install -r requirements.txt
+          pwd
         working-directory: tp_cache
 
       - name: Build Docker image
-        run: DOCKER_BUILDKIT=1 docker buildx build --target with_cache -t image-with-cache -f tp_cache/Dockerfile tp_cache
+        run: |
+          DOCKER_BUILDKIT=1 docker buildx build --target with_cache -t image-with-cache -f tp_cache/Dockerfile tp_cache
+          docker run --rm -d -p 8000:8000 --name my_container image-with-cache
+          sleep 5  # Attendre que le serveur démarre
+          curl -f http://localhost:8000
+
 
