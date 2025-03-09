@@ -1,5 +1,6 @@
-name: Install dependencies with pip cache
-
+name: Install dependencies without pip cache
+run-name: Install dependencies without pip cache
+ 
 on: [push, pull_request]
 
 jobs:
