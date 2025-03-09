@@ -24,11 +24,12 @@ jobs:
             ${{ runner.os }}-pip-
 
 
-      - name: Install dependencies (with --user)
+      - name: Install dependencies 
         run: |
-          pip install --upgrade --user pip
-          pip install --user -r tp_cache/requirements.txt
-          echo "$HOME/.local/bin" >> $GITHUB_PATH 
+          python -m venv /opt/.env
+          ENV PATH="/opt/.env/bin:$PATH"
+          pip install -r requirements.txt
+        
 
       - name: Build Docker image
         run: DOCKER_BUILDKIT=1 docker buildx build --target with_cache -t image-with-cache -f tp_cache/Dockerfile tp_cache
