@@ -39,11 +39,14 @@ jobs:
           restore-keys: |
             pip-cache-${{ runner.os }}-
 
+      - name: Enable BuildKit
+        run: echo "DOCKER_BUILDKIT=1" >> $GITHUB_ENV
+
       - name: Build Docker image using cached dependencies
         env:
           DOCKER_BUILDKIT: 1
         run: |
-          docker build \
+          docker build --progress=plain\
             --build-arg PIP_CACHE_DIR=/root/.cache/pip \
             --target with_cache \
             -t with_cache \
