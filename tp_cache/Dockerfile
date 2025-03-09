@@ -6,9 +6,7 @@ COPY . .
 
 RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
 
-COPY /opt/.env /opt/venv
-
-ENV PATH="/opt/venv/bin:$PATH"
+ENV PATH=".env/bin:$PATH"
 
 EXPOSE 8000
 
