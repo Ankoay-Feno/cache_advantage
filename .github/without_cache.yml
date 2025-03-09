@@ -1,0 +1,12 @@
+name: Docker Build with Cache
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - run: pip install -r requirements.txt
