@@ -24,3 +24,4 @@ jobs:
 
       - name: Install dependencies
         run: pip install --cache-dir ~/.cache/pip -r requirements.txt
+        working-directory: tp_cache
