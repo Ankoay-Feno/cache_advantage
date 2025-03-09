@@ -1,5 +1,5 @@
-name: Docker Build with Cache
-run-name: build with cache
+name: Docker Build with Persistent Cache
+run-name: build with persistent cache
 
 on: [push, pull_request]
 
@@ -10,19 +10,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+      - name: Set up Docker BuildKit
+        run: echo "DOCKER_BUILDKIT=1" >> $GITHUB_ENV
 
-      - name: Cache pip dependencies
+      - name: Restore pip cache
+        id: pip-cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
-          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          path: /tmp/pip-cache
+          key: pip-cache-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
           restore-keys: |
-            pip-${{ runner.os }}-
+            pip-cache-${{ runner.os }}-
 
-      - name: Install dependencies
-        run: pip install --cache-dir ~/.cache/pip -r requirements.txt
-        working-directory: tp_cache
+      - name: Build Docker image with cache
+        run: |
+          docker build \
+            --build-arg PIP_CACHE_DIR=/tmp/pip-cache \
+            --target with_cache \
+            -t your-image-name .
