@@ -1,15 +1,23 @@
+FROM python:3.9-alpine AS builder
+
+WORKDIR /app
+
+RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
+
+ARG PIP_CACHE_DIR=/root/.cache/pip
+
+RUN --mount=type=cache,target=${PIP_CACHE_DIR} \
+    pip install --cache-dir=${PIP_CACHE_DIR} -r requirements.txt
+
 FROM python:3.9-alpine AS with_cache
 
 WORKDIR /app
 
 COPY . .
 
-RUN apk add --no-cache gcc g++ musl-dev libffi-dev openblas lapack-dev
+COPY --from=builder /root/.cache/pip /root/.cache/pip
 
-ARG PIP_CACHE_DIR=/root/.cache/pip
-COPY --from=builder ${PIP_CACHE_DIR} ${PIP_CACHE_DIR}
-
-RUN pip install --no-index --find-links=${PIP_CACHE_DIR} -r requirements.txt
+RUN pip install --no-index --find-links=/root/.cache/pip -r requirements.txt
 
 EXPOSE 8000
 
