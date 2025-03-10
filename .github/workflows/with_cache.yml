@@ -1,6 +1,7 @@
-name: Build with Local Cache
-
-on: [push]
+name: Install dependencies witht cache
+run-name: Install dependencies with  cache
+ 
+on: [push, pull_request]
 
 jobs:
   build:

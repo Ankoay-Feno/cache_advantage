@@ -10,15 +10,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python environment
-        uses: actions/setup-python@v5
+      
+      - name: Build Image
+        uses: docker/build-push-action@v4
         with:
-          python-version: '3.11' 
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r tp_cache/requirements.txt 
-
-      - name: build docker image
-        run: DOCKER_BUILDKIT=1 docker buildx build --target without_cache -t image-without-cache -f tp_cache/Dockerfile tp_cache
+          context: tp_cache
+          file: tp_cache/Dockerfile
+          target: without_cache
+          tags: image-without-cache
